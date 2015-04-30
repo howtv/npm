@@ -15,7 +15,9 @@ namespace :npm do
     on roles fetch(:npm_roles) do
       within fetch(:npm_target_path, release_path) do
         with fetch(:npm_env_variables, {}) do
-          execute :npm, 'install', fetch(:npm_flags)
+          if test "test -e #{fetch(:npm_target_path)}/package.json"
+            execute :npm, 'install', fetch(:npm_flags)
+          end
         end
       end
     end
